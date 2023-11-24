@@ -1,0 +1,235 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-face-aframe.prod.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/main-07e296.css"/>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const list = ['Marilyn', 'Nubian', "Hair1", "Hair2", "Hair3", "Hair4", "Hair5"];
+      const visibleById = Object.fromEntries(list.map(id => [id, false]));
+
+      const $ = (x) => document.querySelector(x);
+      const $$ = (x) => document.querySelector(x);
+
+
+      const getButtonById = (id) => document.querySelector(`#${id}`);
+      const getEntitiesById = (id) => document.querySelectorAll(`.${id}-entity`);
+      const hideById = (id) => {
+        getButtonById(id).classList.remove("selected");;
+        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", false));
+        visibleById[id] = false;
+      }
+
+      const toggleById = (id) => visibleById[id] ? hideById(id) : showById(id);
+      const hideAll = () => list.forEach(hideById);
+      const getVisibleId = () => list.reduce((acc, id) => visibleById[id] ? id : acc, '');
+      const read = () => {
+        const id = getVisibleId();
+        const entity = getEntitiesById(id)[0];
+        const position = entity.object3D.position;
+        const scale = entity.object3D.scale;
+        $('#X').value = position.x;
+        $('#Y').value = position.y;
+        $('#Z').value = position.z;
+        $('#scale').value = scale.x;
+        $('.POS').innerHTML = `${position.x.toFixed(2)} ${position.y.toFixed(2)} ${position.z.toFixed(2)}<br/>s${scale.x}`
+      }
+      const showById = (id) => {
+        getButtonById(id).classList.add("selected");;
+        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", true));
+        visibleById[id] = true;
+        read();
+      }
+
+      list.forEach((id) => {
+        getButtonById(id).addEventListener('click', () => { hideAll(); toggleById(id); });
+      });
+      // showById(list[0]);
+      hideAll();
+      showById('Nubian');
+
+
+      const change = (axis, val) => {
+        const id = getVisibleId();
+        const entity = getEntitiesById(id)[0];
+        const position = { ...entity.object3D.position };
+        const scale = { ...entity.object3D.scale };
+
+        position.x = axis === 'x' ? parseFloat(val) : position.x;
+        position.y = axis === 'y' ? parseFloat(val) : position.y;
+        position.z = axis === 'z' ? parseFloat(val) : position.z;
+        
+        scale.x = axis === 'scale' ? parseFloat(val) : scale.x;
+        scale.y = axis === 'scale' ? parseFloat(val) : scale.y;
+        scale.z = axis === 'scale' ? parseFloat(val) : scale.z;
+
+        console.log('Setting ', position)
+        entity.object3D.position.set(position.x, position.y, position.z)
+        entity.object3D.scale.set(scale.x, scale.y, scale.z)
+        console.log('Settd ', entity.object3D.position, entity)
+
+        read();
+      }
+
+      $('#X').addEventListener('input', (e) => change('x', e.target.value))
+      $('#Y').addEventListener('input', (e) => change('y', e.target.value))
+      $('#Z').addEventListener('input', (e) => change('z', e.target.value))
+      $('#scale').addEventListener('input', (e) => change('scale', e.target.value))
+
+
+      window.read = read;
+      setTimeout(read, 1000);
+    });
+  </script>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .example-container {
+      overflow: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .options-panel {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 0.4em;
+    }
+
+    .debug-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 60vw;
+      opacity: .7;
+      z-index: 2;
+      background: rgba(255,255,255,.7);
+    }
+    .debug-panel * {
+      width: 60vw;
+    }
+
+    #logo {
+      margin: 0;
+      text-indent: -9999px;
+      overflow: hidden;
+      width: 32vw;
+      height: 8vw;
+      background: url(/assets/treatwell-logo.svg) no-repeat;
+      position: fixed;
+      top: 0px;
+      right: 10px;
+    }
+
+    .AppButton {
+      background-color: var(--color-blue-600);
+      color: var(--color-white);
+      border: 0;
+      display: inline-block;
+    }
+    .AppButton.selected {
+      background-color: var(--color-bloom-base-coral-600);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="example-container">
+    <div class="options-panel">
+      <button id="Marilyn" class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Marilyn</button>
+      <button id="Nubian"  class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Nubian</button>
+      <button id="Hair1"   class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Hair 1</button>
+      <button id="Hair2"   class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Hair 2</button>
+      <button id="Hair3"   class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Hair 3</button>
+      <button id="Hair4"   class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Hair 4</button>
+      <button id="Hair5"   class="CommonSearchTab-module--button--5c0314 Button-module--button--090d0b Button-module--normal--a5e659 AppButton">Hair 5</button>
+
+    </div>
+    <div class="debug-panel">
+      <input type="range" min="-15" max="5" step="0.01" value="0" class="slider" id="X"><br />
+      <input type="range" min="-15" max="5" step="0.01" value="0" class="slider" id="Y"><br />
+      <input type="range" min="-15" max="5" step="0.01" value="0" class="slider" id="Z"><br />
+      <input type="range" min="0.01" max="10" step="0.01" value="1" class="slider" id="scale"><br />
+      <span class="POS"></span><br />
+    </div>
+    <a-scene mindar-face embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <a-asset-item id="headModel"
+          src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/sparkar/headOccluder.glb"></a-asset-item>
+
+        <a-asset-item id="Marilyn-model" src="./assets/marilyn_monroe_hair/scene.gltf"></a-asset-item>
+        <a-asset-item id="Nubian-model" src="./assets/nubian/scene.gltf"></a-asset-item>
+
+        <a-asset-item id="Hair1-model" src="./assets/Head01.obj"></a-asset-item>
+        <a-asset-item id="Hair1-material" src="./assets/Head01.mtl"></a-asset-item>
+
+        <a-asset-item id="Hair2-model" src="./assets/Head02.obj"></a-asset-item>
+        <a-asset-item id="Hair2-material" src="./assets/Head02.mtl"></a-asset-item>
+
+        <a-asset-item id="Hair3-model" src="./assets/Head03.obj"></a-asset-item>
+        <a-asset-item id="Hair3-material" src="./assets/Head03.mtl"></a-asset-item>
+
+        <a-asset-item id="Hair4-model" src="./assets/Head04.obj"></a-asset-item>
+        <a-asset-item id="Hair4-material" src="./assets/Head04.mtl"></a-asset-item>
+
+        <a-asset-item id="Hair5-model" src="./assets/Head05.obj"></a-asset-item>
+        <a-asset-item id="Hair5-material" src="./assets/Head05.mtl"></a-asset-item>
+
+      </a-assets>
+      <a-camera active="false" position="0 0 0" look-controls="pointerLockEnabled: true;enabled: false"></a-camera>
+      <!-- head occluder -->
+      <a-entity mindar-face-target="anchorIndex: 168">
+        <a-gltf-model mindar-face-occluder position="0 -0.3 0.15" rotation="0 0 0" scale="0.065 0.065 0.065"
+          src="#headModel"></a-gltf-model>
+      </a-entity>
+      <!-- / head occluder -->
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-gltf-model rotation="0 -0 0" position="-0.09 -2.19 -1.01" scale="0.07 0.07 0.07" src="#Marilyn-model"
+          class="Marilyn-entity" visible="true"></a-gltf-model>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-gltf-model rotation="0 -0 0" position="0.01 -11.98 -0.47" scale="7.51 7.51 7.51" src="#Nubian-model"
+          class="Nubian-entity" visible="true"></a-gltf-model>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-entity obj-model="obj: #Hair1-model; mtl: #Hair1-material" rotation="0 -0 0" position="0 -1 -0.7"
+          scale="0.035 0.035 0.035" class="Hair1-entity" visible="false"></a-entity>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-entity obj-model="obj: #Hair2-model; mtl: #Hair2-material" rotation="0 -0 0" position="0 -1 -0.7"
+          scale="0.035 0.035 0.035" class="Hair2-entity" visible="false"></a-entity>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-entity obj-model="obj: #Hair3-model; mtl: #Hair3-material" rotation="0 -0 0" position="0.00 -0.79 -0.70"
+          scale="0.035 0.035 0.035" class="Hair3-entity" visible="false"></a-entity>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-entity obj-model="obj: #Hair4-model; mtl: #Hair4-material" rotation="0 -0 0" position="0 -1.1 -0.7"
+          scale="0.035 0.035 0.035" class="Hair4-entity" visible="false"></a-entity>
+      </a-entity>
+
+      <a-entity mindar-face-target="anchorIndex: 10">
+        <a-entity obj-model="obj: #Hair5-model; mtl: #Hair5-material" rotation="0 -0 0" position="0 -1 -0.7"
+          scale="0.035 0.035 0.035" class="Hair5-entity" visible="false"></a-entity>
+      </a-entity>
+
+    </a-scene>
+  </div>
+  <div id="logo"></div>
+</body>
+
+</html>

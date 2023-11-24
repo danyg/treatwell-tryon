@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Virtual Try-on</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js"></script>
+  <link rel="stylesheet" href="https://www.treatwell.es/nmp/asset/main-07e296.css">
+  <style type="text/css">
+    /* * { box-sizing: border-box;}
+    html,body {
+      font-family: Treatwell Sans Web, Verdana, Geneva, Tahoma, sans-serif;
+      width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;} */
+    .container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+    }
+    .container iframe {
+      flex-grow: 5;
+    }
+    .QR {
+      flex-grow: 2;
+      padding: 2em;
+    }
+    #qrcode {
+      outline: solid 10px #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <iframe src="/index.html" id="demo"></iframe>
+    <div class="QR">
+      <div id="qrcode"></div>
+      <div id="url"></div>
+      <script type="text/javascript">
+        const url = window.location.origin;
+        document.getElementById('url').textContent = url;
+        new QRCode(document.getElementById("qrcode"), {
+          text: url,
+          width: 480,
+          height: 480,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+      </script>
+    </div>
+  </div>
+</body>
+
+</html>
