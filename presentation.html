@@ -34,10 +34,8 @@
     <iframe src="./index.html" id="demo"></iframe>
     <div class="QR">
       <div id="qrcode"></div>
-      <div id="url"></div>
       <script type="text/javascript">
         const url = window.location.toString().replace('presentation.html');
-        document.getElementById('url').textContent = url;
         new QRCode(document.getElementById("qrcode"), {
           text: url,
           width: 480,
