@@ -35,7 +35,7 @@
     <div class="QR">
       <div id="qrcode"></div>
       <script type="text/javascript">
-        const url = window.location.toString().replace('presentation.html');
+        const url = window.location.toString().replace('presentation.html', '');
         new QRCode(document.getElementById("qrcode"), {
           text: url,
           width: 480,
