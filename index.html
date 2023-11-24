@@ -2,172 +2,31 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-face-aframe.prod.js"></script>
-  <link rel="stylesheet" type="text/css" href="./css/main-07e296.css" />
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const list = ['None', 'Marilyn', 'Nubian', "Hair1", "Hair2", "Hair3", "Hair4", "Hair5"];
-      const visibleById = Object.fromEntries(list.map(id => [id, false]));
 
-      const $ = (x) => document.querySelector(x);
-      const $$ = (x) => document.querySelector(x);
-
-
-      const getButtonById = (id) => document.querySelector(`#${id}`);
-      const getEntitiesById = (id) => document.querySelectorAll(`.${id}-entity`);
-      const hideById = (id) => {
-        getButtonById(id).classList.remove("selected");;
-        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", false));
-        visibleById[id] = false;
-      }
-
-      const toggleById = (id) => visibleById[id] ? hideById(id) : showById(id);
-      const hideAll = () => list.forEach(hideById);
-      const getVisibleId = () => list.reduce((acc, id) => visibleById[id] ? id : acc, '');
-      const read = () => {
-        const id = getVisibleId();
-        const entity = getEntitiesById(id)[0];
-        const position = entity.object3D.position;
-        const scale = entity.object3D.scale;
-        $('#X').value = position.x;
-        $('#Y').value = position.y;
-        $('#Z').value = position.z;
-        $('#scale').value = scale.x;
-        $('.POS').innerHTML = `${position.x.toFixed(2)} ${position.y.toFixed(2)} ${position.z.toFixed(2)}<br/>s${scale.x}`
-      }
-      const showById = (id) => {
-        getButtonById(id).classList.add("selected");;
-        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", true));
-        visibleById[id] = true;
-        read();
-      }
-
-      list.forEach((id) => {
-        getButtonById(id).addEventListener('click', () => { hideAll(); toggleById(id); });
-      });
-      // showById(list[0]);
-      hideAll();
-      showById('None');
-
-
-      const change = (axis, val) => {
-        const id = getVisibleId();
-        const entity = getEntitiesById(id)[0];
-        const position = { ...entity.object3D.position };
-        const scale = { ...entity.object3D.scale };
-
-        position.x = axis === 'x' ? parseFloat(val) : position.x;
-        position.y = axis === 'y' ? parseFloat(val) : position.y;
-        position.z = axis === 'z' ? parseFloat(val) : position.z;
-
-        scale.x = axis === 'scale' ? parseFloat(val) : scale.x;
-        scale.y = axis === 'scale' ? parseFloat(val) : scale.y;
-        scale.z = axis === 'scale' ? parseFloat(val) : scale.z;
-
-        console.log('Setting ', position)
-        entity.object3D.position.set(position.x, position.y, position.z)
-        entity.object3D.scale.set(scale.x, scale.y, scale.z)
-        console.log('Settd ', entity.object3D.position, entity)
-
-        read();
-      }
-
-      $('#X').addEventListener('input', (e) => change('x', e.target.value))
-      $('#Y').addEventListener('input', (e) => change('y', e.target.value))
-      $('#Z').addEventListener('input', (e) => change('z', e.target.value))
-      $('#scale').addEventListener('input', (e) => change('scale', e.target.value))
-
-
-      window.read = read;
-      setTimeout(read, 1000);
-    });
-  </script>
-  <style>
-    body {
-      margin: 0;
-      background: #FF808B;
-    }
-
-    .example-container {
-      overflow: hidden;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .options-panel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .options-panel {
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      z-index: 2;
-      padding: 0.4em;
-
-      white-space: nowrap;
-      display: flex;
-      gap: 6px;
-      max-width: 100%;
-      min-width: 100%;
-
-      background-color: var(--color-white);
-
-      scroll-snap-type: x mandatory;
-      overflow-x: scroll;
-      -webkit-overflow-scrolling: touch;
-      -webkit-scrollbar: none;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      scroll-behavior: smooth;
-    }
-
-    .debug-panel {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 60vw;
-      opacity: .7;
-      z-index: 2;
-      background: rgba(255, 255, 255, .7);
-    }
-
-    .debug-panel * {
-      width: 60vw;
-    }
-
-    #logo {
-      margin: 0;
-      text-indent: -9999px;
-      overflow: hidden;
-      width: 32vw;
-      height: 8vw;
-      background: url(./assets/treatwell-logo.svg) no-repeat;
-      position: fixed;
-      top: .2em;
-      right: 10px;
-    }
-
-    .AppButton {
-      border: 0;
-      display: inline-block;
-      
-      border: var(--color-blue-600) solid 2px;
-      background-color: var(--color-white);
-      color: var(--color-blue-600);
-    }
-    
-    .AppButton.selected {
-      background-color: var(--color-blue-600);
-      color: var(--color-white);
-    }
-  </style>
+  
 </head>
 
 <body>
+  <style type="text/css">
+    body {
+      margin: 0;
+      /* background: #FF808B; */
+      background: #FF808B url(./assets/treatwell-logo.svg) no-repeat center;
+      background-size: 75%;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="./css/main-07e296.css" />
+  <link rel="stylesheet" type="text/css" href="./css/tryon-styles.css" />
+  <style type="text/css">
+    body {
+      margin: 0;
+      /* background: #FF808B; */
+      background: #FF808B url(./assets/treatwell-logo.svg) no-repeat center;
+      background-size: 75%;
+    }
+  </style>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-face-aframe.prod.js"></script>
   <div class="example-container">
     <a-scene mindar-face embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false"
@@ -277,6 +136,84 @@
     <span class="POS"></span><br />
   </div>
   <div id="logo"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const list = ['None', 'Marilyn', 'Nubian', "Hair1", "Hair2", "Hair3", "Hair4", "Hair5"];
+      const visibleById = Object.fromEntries(list.map(id => [id, false]));
+
+      const $ = (x) => document.querySelector(x);
+      const $$ = (x) => document.querySelector(x);
+
+
+      const getButtonById = (id) => document.querySelector(`#${id}`);
+      const getEntitiesById = (id) => document.querySelectorAll(`.${id}-entity`);
+      const hideById = (id) => {
+        getButtonById(id).classList.remove("selected");;
+        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", false));
+        visibleById[id] = false;
+      }
+
+      const toggleById = (id) => visibleById[id] ? hideById(id) : showById(id);
+      const hideAll = () => list.forEach(hideById);
+      const getVisibleId = () => list.reduce((acc, id) => visibleById[id] ? id : acc, '');
+      const read = () => {
+        const id = getVisibleId();
+        const entity = getEntitiesById(id)[0];
+        const position = entity.object3D.position;
+        const scale = entity.object3D.scale;
+        $('#X').value = position.x;
+        $('#Y').value = position.y;
+        $('#Z').value = position.z;
+        $('#scale').value = scale.x;
+        $('.POS').innerHTML = `${position.x.toFixed(2)} ${position.y.toFixed(2)} ${position.z.toFixed(2)}<br/>s${scale.x}`
+      }
+      const showById = (id) => {
+        getButtonById(id).classList.add("selected");;
+        getEntitiesById(id).forEach(entity => entity.setAttribute("visible", true));
+        visibleById[id] = true;
+        read();
+      }
+
+      list.forEach((id) => {
+        getButtonById(id).addEventListener('click', () => { hideAll(); toggleById(id); });
+      });
+      // showById(list[0]);
+      hideAll();
+      showById('None');
+
+
+      const change = (axis, val) => {
+        const id = getVisibleId();
+        const entity = getEntitiesById(id)[0];
+        const position = { ...entity.object3D.position };
+        const scale = { ...entity.object3D.scale };
+
+        position.x = axis === 'x' ? parseFloat(val) : position.x;
+        position.y = axis === 'y' ? parseFloat(val) : position.y;
+        position.z = axis === 'z' ? parseFloat(val) : position.z;
+
+        scale.x = axis === 'scale' ? parseFloat(val) : scale.x;
+        scale.y = axis === 'scale' ? parseFloat(val) : scale.y;
+        scale.z = axis === 'scale' ? parseFloat(val) : scale.z;
+
+        console.log('Setting ', position)
+        entity.object3D.position.set(position.x, position.y, position.z)
+        entity.object3D.scale.set(scale.x, scale.y, scale.z)
+        console.log('Settd ', entity.object3D.position, entity)
+
+        read();
+      }
+
+      $('#X').addEventListener('input', (e) => change('x', e.target.value))
+      $('#Y').addEventListener('input', (e) => change('y', e.target.value))
+      $('#Z').addEventListener('input', (e) => change('z', e.target.value))
+      $('#scale').addEventListener('input', (e) => change('scale', e.target.value))
+
+
+      window.read = read;
+      setTimeout(read, 1000);
+    });
+  </script>
 </body>
 
 </html>
