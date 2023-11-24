@@ -55,7 +55,7 @@
   overflow: hidden;
   width: 32vw;
   height: 8vw;
-  background: url(./assets/treatwell-logo.svg) no-repeat;
+  background: url(../assets/treatwell-logo.svg) no-repeat;
   position: fixed;
   top: .2em;
   right: 10px;
