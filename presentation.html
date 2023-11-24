@@ -10,17 +10,25 @@
     html,body {
       font-family: Treatwell Sans Web, Verdana, Geneva, Tahoma, sans-serif;
       width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;} */
+    html,
+    body {
+      padding: 0; margin: 0;
+      overflow: hidden;
+    }
+
     .container {
       display: flex;
       flex-direction: row;
       width: 100%;
       height: 100%;
     }
+
     .container .Demo {
       flex-grow: 5;
       background-color: #222;
       text-align: center;
     }
+
     .container .Demo iframe {
       height: 100%;
       aspect-ratio: 9 / 16;
@@ -28,10 +36,12 @@
       border: none;
       margin: 0 auto;
     }
+
     .QR {
       width: 535px;
       padding: 2em;
     }
+
     #qrcode {
       outline: solid 10px #fff;
     }
@@ -53,9 +63,9 @@
           text: url,
           width: 480,
           height: 480,
-          colorDark : "#000000",
-          colorLight : "#ffffff",
-          correctLevel : QRCode.CorrectLevel.H
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
         });
       </script>
     </div>
